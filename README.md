@@ -1,2 +1,3 @@
 # havardcs50
-repo for Harvard cs50 work
+
+Harvard's CS50 Web Programming with Python and JavaScript
