@@ -1,5 +1,6 @@
 # havardcs50
 
+<<<<<<< HEAD
 Harvard's CS50 Web Programming with Python and JavaScript
 
 CREATE TABLE flights(
@@ -15,3 +16,6 @@ INSERT INTO flights (origin,destination ,duration) VALUES( 'Moscow', 'Paris' , 2
 INSERT INTO flights (origin,destination ,duration) VALUES( 'Lima', 'New York' , 455);
 
 UPDATE flights SET duration = 430 WHERE origin = 'New York' AND destination = 'London';
+=======
+Harvard's CS50 Web Programming with Django, Python, and JavaScript
+>>>>>>> 042e158b942adc59526a27a88ac1fc04a59f8708
