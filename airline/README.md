@@ -1,9 +1,17 @@
-<!-- get into django shell -->
+## Common Commands
 
-python manage.py shell
+Start server
+`python manage.py runserver`
 
-<!-- import model  -->
+Get into django shell
+`python manage.py shell`
 
+Create admin user
+`python manage.py createsuperuser`
+
+## SQL Commands
+
+import model
 from flights.models import Flight
 
 <!-- Insert new flight  -->
@@ -22,5 +30,3 @@ nrt = Airport(code='NRT', city='Tokyo')
 > > > nrt.save()
 > > > f = Flight(origin=jfk, destination=lhr, duration=415)
 > > > f.save()
-
-python manage.py createsuperuser
