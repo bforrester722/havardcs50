@@ -1,0 +1,12 @@
+{% extends "encyclopedia/layout.html" %}
+{% block title %}Error{% endblock %}
+{% block body %}<h1 class="text-danger display-1">
+  {% if error == '404' %}
+    Error 404: Entry Not Found
+  {% elif error == 'alreadyEntered' %}
+    Error: Already Entered
+  {% endif %}
+
+</h1>
+<a href="{% url 'encyclopedia:index' %}">View All</a>
+{% endblock %}
