@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Search</title>
-    <link href="./search.css" rel="stylesheet"></link>
+    <title>Image Search</title>
+    <link href="./search.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
-    <div>
-      <a href=""></a>
+    <div id="links">
+      <a href="./index.html">Back To Search</a>
     </div>
-    <form action="https://www.google.com/search">
-      <input type="text" name="q" />
-      <input type="submit" value="Google Search" />
+    <div id="googleWrapper"><h1>GOOGLE</h1></div>
+    <form id="indexForm" action="https://www.google.com/search">
+      <input id="searchInput" type="text" name="q" />
+      <center>
+        <input hidden="true" name="tbm" value="isch" />
+        <input type="submit" value="Image Search" />
+      </center>
     </form>
   </body>
 </html>

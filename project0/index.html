@@ -3,20 +3,19 @@
   <head>
     <title>Search</title>
     <link href="./search.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
     <div id="links">
       <a href="./advanced.html">Advanced Search</a>
       <a href="./image.html">Image Search</a>
     </div>
-
     <div id="googleWrapper"><h1>GOOGLE</h1></div>
-    <form action="https://www.google.com/search">
+    <form id="indexForm" action="https://www.google.com/search">
       <input id="searchInput" type="text" name="q" />
-
       <center>
         <input type="submit" value="Google Search" />
-        <input type="submit" value="I'm Feeling Lucky" />
+        <input type="submit" value="I'm Feeling Lucky" name="btnI" />
       </center>
     </form>
   </body>
