@@ -1,0 +1,73 @@
+#appbar {
+  color: #d93025;
+  font-size: 20px;
+  margin: 16px 0px;
+}
+
+#divider {
+  border-bottom: 1px solid #ebebeb;
+}
+
+#advancedForm {
+  max-width: 800px;
+  position: relative;
+  margin: 16px 0px;
+  display: table;
+  border-spacing: 5px;
+}
+
+.advanced-input-wrapper {
+  display: table-row;
+}
+
+.advanced-input-wrapper label {
+  min-width: 167px;
+  color: #222;
+  font-size: 13px;
+  line-height: 16px;
+}
+
+.advanced-input-wrapper input {
+  width: calc(100% - 6px);
+  border-radius: 1px;
+  border: 1px solid #d9d9d9;
+  border-top: 1px solid #c0c0c0;
+  font-size: 13px;
+  height: 25px;
+  min-width: 300x;
+}
+
+.advanced-input-wrapper input:focus {
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  border: 1px solid #4d90fe;
+  outline: none;
+}
+
+#advancedSearchBtn {
+  color: white;
+  background-color: #4d90fe;
+  background-image: -webkit-linear-gradient(top, #4d90fe, #4787ed);
+  position: absolute;
+  right: 0;
+}
+
+#advancedSearchBtn:hover {
+  background-color: #357ae8;
+  background-image: -webkit-linear-gradient(top, #4d90fe, #357ae8);
+}
+
+@media only screen and (min-width: 400px) {
+  #appbar {
+    margin: 40px;
+  }
+
+  #advancedForm {
+    margin: 40px;
+  }
+
+  .advanced-input-wrapper label {
+    display: table-cell;
+    width: 16%;
+    height: 42px;
+  }
+}

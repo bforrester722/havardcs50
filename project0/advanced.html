@@ -1,16 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Search</title>
-    <link href="./search.css" rel="stylesheet"></link>
+    <title>Advanced Search</title>
+    <link href="./advanced.css" rel="stylesheet" />
+    <link href="./search.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
-    <div>
-      <a href=""></a>
+    <div id="links">
+      <a href="./index.html">Back To Search</a>
     </div>
-    <form action="https://www.google.com/search">
-      <input type="text" name="q" />
-      <input type="submit" value="Google Search" />
+    <div id="appbar">
+      <label> Advanced Search</label>
+    </div>
+    <div id="divider"></div>
+    <form id="advancedForm" action="https://www.google.com/search">
+      <div class="advanced-input-wrapper">
+        <label for="all"> all these words:</label>
+        <input
+          value=""
+          autofocus="autofocus"
+          id="all"
+          name="as_q"
+          type="text"
+        />
+      </div>
+      <div class="advanced-input-wrapper">
+        <label for="exact"> this exact word or phrase:</label>
+        <input value="" id="exact" name="as_epq" type="text" />
+      </div>
+      <div class="advanced-input-wrapper">
+        <label for="any"> any of these words:</label>
+        <input value="" id="any" name="as_oq" type="text" />
+      </div>
+      <div class="advanced-input-wrapper">
+        <label for="none"> none of these words:</label>
+        <input value="" id="none" name="as_eq" type="text" />
+      </div>
+      <input id="advancedSearchBtn" type="submit" value="Advanced Search" />
     </form>
   </body>
 </html>
