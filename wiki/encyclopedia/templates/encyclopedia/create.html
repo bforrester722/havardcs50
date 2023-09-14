@@ -1,11 +1,20 @@
 {% extends 'encyclopedia/layout.html' %}
 {% block body %}
-  <h1>Create Entry</h1>
-  <form action="{% url 'encyclopedia:create' %}" method="post">
+<div class="form-control-wrapper">
+  <h1>
+    {% if request.path == '/create' %}
+      Create Entry
+    {% else %}
+      Edit {{title}}
+    {% endif %}
+  </h1>
+
+  <form  method="post">
     {% csrf_token %} {{ form }}
     <div class="d-flex flex-row-reverse">
       <input class="btn btn-primary" type="submit" />
     </div>
   </form>
+</div>
   <a href="{% url 'encyclopedia:index' %}">View All</a>
 {% endblock %}

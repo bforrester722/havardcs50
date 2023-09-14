@@ -38,3 +38,16 @@ h1 {
     bottom: 0;
     left: 0;
 }
+
+.form-control-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: 700px;
+    margin: auto;
+  }
+  
+  .form-control {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
