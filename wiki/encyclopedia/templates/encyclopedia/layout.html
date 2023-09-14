@@ -77,7 +77,7 @@
             {{ message }} {% if message.extra_tags %}
 
             <a
-              href="{% url 'encyclopedia:entry' message.extra_tags %}"
+              href="{% url 'encyclopedia:edit' message.extra_tags %}"
               class="alert-link"
             >
               click here to edit</a
