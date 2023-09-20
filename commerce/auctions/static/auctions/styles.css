@@ -1,3 +1,7 @@
 body {
     padding: 10px;
 }
+
+.contain-img {
+    object-fit: contain;
+}
