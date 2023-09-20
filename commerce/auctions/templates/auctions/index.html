@@ -2,6 +2,20 @@
 
 {% block body %}
     <h2>Active Listings</h2>
+    <div class="d-flex justify-content-between">
+    {% for listing in listings  %}
 
-    TODO
+ 
+        <div class="card " >
+            <img class="contain-img "  width="320" height="180"  src="{{listing.imgUrl}}" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{listing.title}}</h5>
+              <p class="card-text">{{listing.description}}</p>
+              <div>${{listing.startingBid}}</div>
+              <a href="{% url 'listing' listing.id %}" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
+ 
+    {% endfor %}
+    </div>
 {% endblock %}
