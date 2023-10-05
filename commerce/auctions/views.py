@@ -5,18 +5,17 @@ from django.shortcuts import render
 from django.urls import reverse
 from .forms import ListingForm
 from .models import User, Listing
+import logging
+
+logger = logging.getLogger("django")
 
 
 def index(request):
-    return render(request, "auctions/index.html", {
-        "listings": Listing.objects.all()
-    })
+    return render(request, "auctions/index.html", {"listings": Listing.objects.all()})
 
 
 def categories(request):
-    return render(request, "auctions/index.html", {
-        "listings": Listing.objects.all()
-    })
+    return render(request, "auctions/index.html", {"listings": Listing.objects.all()})
 
 
 def listing(request, listing_id):
@@ -24,27 +23,27 @@ def listing(request, listing_id):
         listing = Listing.objects.get(id=listing_id)
     except Listing.DoesNotExist:
         raise Http404("Flight not found.")
-    return render(request, "auctions/listing.html", {
-        "listing": listing,
-
-    })
+    return render(
+        request,
+        "auctions/listing.html",
+        {
+            "listing": listing,
+        },
+    )
 
 
 def watchlist(request):
-    return render(request, "auctions/index.html", {
-        "listings": Listing.objects.all()
-    })
+    return render(request, "auctions/index.html", {"listings": Listing.objects.all()})
 
 
 def listings(request):
-    return render(request, "auctions/listings.html", {
-        "listings": Listing.objects.all()
-    })
+    return render(
+        request, "auctions/listings.html", {"listings": Listing.objects.all()}
+    )
 
 
 def login_view(request):
     if request.method == "POST":
-
         # Attempt to sign user in
         username = request.POST["username"]
         password = request.POST["password"]
@@ -55,9 +54,11 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
-            return render(request, "auctions/login.html", {
-                "message": "Invalid username and/or password."
-            })
+            return render(
+                request,
+                "auctions/login.html",
+                {"message": "Invalid username and/or password."},
+            )
     else:
         return render(request, "auctions/login.html")
 
@@ -76,18 +77,20 @@ def register(request):
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
-            return render(request, "auctions/register.html", {
-                "message": "Passwords must match."
-            })
+            return render(
+                request, "auctions/register.html", {"message": "Passwords must match."}
+            )
 
         # Attempt to create new user
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
         except IntegrityError:
-            return render(request, "auctions/register.html", {
-                "message": "Username already taken."
-            })
+            return render(
+                request,
+                "auctions/register.html",
+                {"message": "Username already taken."},
+            )
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
@@ -99,16 +102,25 @@ def create(request):
         form = ListingForm(request.POST)
 
         if form.is_valid():
-            category = form.cleaned_data["category"]
-            description = form.cleaned_data["description"]
-            imgUrl = form.cleaned_data["imgUrl"]
-            startingBid = form.cleaned_data["startingBid"]
-            title = form.cleaned_data["title"]
-
-            passenger = Listing.objects.get(
-                pk=int(request.POST["passenger"]))
-            flight = Flight.objects.get(pk=flight_id)
-
+            form.save()
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/create.html", {"form": ListingForm()})
+
+
+def change_watchlist(request, listing_id, reverse_method):
+    user = User.objects.get(pk=int(request.user.id))
+
+    listing_object = Listing.objects.get(id=listing_id)
+
+    # user = User.objects.get(id=request.user)
+
+    if user in listing_object.watchers.all():
+        listing_object.watchers.remove(user)
+    else:
+        listing_object.watchers.add(request.user)
+
+    if reverse_method == "listing":
+        return listing(request, listing_id)
+    else:
+        return HttpResponseRedirect(reverse(reverse_method))

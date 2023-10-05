@@ -1,16 +1,45 @@
-{% extends "auctions/layout.html" %}
+{% extends "auctions/layout.html" %} {% block body %}
+{% load my_tags %}
 
-{% block body %}
+<h2>Listing: {{listing.title}}</h2>
+<div class="row">
+  <div class="col-lg">
+    <img src="{{listing.imgUrl}}" class="w-50 p-3" />
+  </div>
+  <div class="col-lg">
+    <div>{{listing.description}}</div>
+    <h3>${{listing.startingBid}}</h3>
+    {% if user.is_authenticated %}
+    <a
+    href="{% url 'change_watchlist' listing.id 'listing' %}"
+    class="card-link"
+  >
+     {% if user.username|is_in_list:listing.watchers.all %}
+     <button class="btn btn-warning">
+      Remove from Watchlist
+      </button>
+ 
+      {% else %}
+      <button class="btn btn-primary">
+        Add to Watchlist
+      </button>
+      {% endif %} 
+    </a>
+  
 
-    <h2>Listing: {{listing.title}}</h2>
-    <img src="{{listing.imgUrl}}">
-     <div>{{listing.description}}</div>
-     <h3>${{listing.startingBid}}</h3>
-    <h4>Details</h4>
-    <ul>
-      <li>Listed by:{{listing.owner}}</li>
-      <li>Category:{{listing.category}}</li>
-    </ul>
-   
 
-{% endblock %}
+    </a>
+    {% endif %}
+  </div>
+</div>
+
+<h4>Details</h4>
+<ul>
+  <li>Listed by:{{listing.owner}}</li>
+  <li>Category:{{listing.category}}</li>
+  <li>Watchers:{{listing.watchers.all.count}}</li>
+</ul>
+
+{% if user.username == listing.owner %}
+<button class="btn btn-danger">Close Auction</button>
+{% endif %} {% endblock %}
