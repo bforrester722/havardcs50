@@ -9,16 +9,19 @@ CATEGORY_CHOICES = [
 
 
 class User(AbstractUser):
+    watching = models.ManyToManyField("Listing", related_name="watching", blank=True)
     pass
 
 
 class Listing(models.Model):
     category = models.CharField(max_length=32, choices=CATEGORY_CHOICES)
+    closed = models.BooleanField(default=False)
     description = models.CharField(max_length=144)
-    imgUrl = models.CharField(max_length=256)
+    imgUrl = models.CharField(max_length=256, blank=True)
     owner = models.CharField(max_length=64)
     startingBid = models.DecimalField(max_digits=6, decimal_places=2)
     title = models.CharField(max_length=64)
+    watchers = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
         return f"{self.id} {self.owner} ({self.title}) {self.startingBid}"
