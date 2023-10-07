@@ -1,21 +1,19 @@
-{% extends "auctions/layout.html" %}
+{% extends 'auctions/layout.html' %}
 
 {% block body %}
-    <h2>Active Listings</h2>
-    <div class="d-flex justify-content-between">
-    {% for listing in listings  %}
-
- 
-        <div class="card " >
-            <img class="contain-img "  width="320" height="180"  src="{{listing.imgUrl}}" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">{{listing.title}}</h5>
-              <p class="card-text">{{listing.description}}</p>
-              <div>${{listing.startingBid}}</div>
-              <a href="{% url 'listing' listing.id %}" class="btn btn-primary">Go somewhere</a>
-            </div>
+  <h2>Active Listings</h2>
+  <div class="d-flex justify-content-between">
+    {% for listing in listings %}
+      <a href="{% url 'listing' listing.id %}">
+        <div class="card">
+          <img class="contain-img" width="320" height="180" src="{{ listing.imgUrl }}" alt="Card image cap" />
+          <div class="card-body">
+            <h5 class="card-title">{{ listing.title }}</h5>
+            <p class="card-text">{{ listing.description }}</p>
+            <p class="fw-bold">${{ listing.highestBid }}</p>
           </div>
- 
+        </div>
+      </a>
     {% endfor %}
-    </div>
+  </div>
 {% endblock %}

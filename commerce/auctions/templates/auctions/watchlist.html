@@ -1,20 +1,30 @@
-{% extends "auctions/layout.html" %}
+{% extends 'auctions/layout.html' %}
 
 {% block body %}
-
-    <h2>Create Listing</h2>
+  <h2>Your Watchlist ({{ user }}):</h2>
+  <div class="d-flex justify-content-between">
+    {% for listing in listings %}
+      <a href="{% url 'listing' listing.id %}">
+        <div class="card">
+          <img class="contain-img" width="320" height="180" src="{{ listing.imgUrl }}" alt="Card image cap" />
+          <div class="card-body">
+            <h5 class="card-title">{{ listing.title }}</h5>
+            <p class="card-text">{{ listing.description }}</p>
+            <p class="fw-bold">${{ listing.startingBid }}</p>
+          </div>
+        </div>
+      </a>
+    {% endfor %}
 
     {% if message %}
-        <div>{{ message }}</div>
+      <div>{{ message }}</div>
     {% endif %}
 
     <form method="post">
-        {% csrf_token %} {{ form }}
-        <div class="d-flex flex-row-reverse">
-          <input class="btn btn-primary" type="submit" value="Save" />
-        </div>
-      </form>
-
-
-
+      {% csrf_token %} {{ form }}
+      <div class="d-flex flex-row-reverse">
+        <input class="btn btn-primary" type="submit" value="Save" />
+      </div>
+    </form>
+  </div>
 {% endblock %}
