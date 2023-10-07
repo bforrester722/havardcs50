@@ -29,15 +29,22 @@ class Listing(models.Model):
 
 class Bid(models.Model):
     user = models.CharField(max_length=64)
-    bid = models.CharField(max_length=64)
+    bid = models.DecimalField(max_digits=6, decimal_places=2)
+    listing_id = models.ForeignKey(
+        Listing, on_delete=models.CASCADE, related_name="bids"
+    )
 
     def __str__(self):
         return f"{self.user} {self.bid}"
 
 
 class Comment(models.Model):
+    listing_id = models.ForeignKey(
+        Listing, on_delete=models.CASCADE, related_name="comments"
+    )
+    date_time = models.DateTimeField()
     user = models.CharField(max_length=64)
     comment = models.CharField(max_length=144)
 
     def __str__(self):
-        return f"{self.user} says: {self.comment}"
+        return f"{self.date_time} {self.user} says: {self.comment}"
