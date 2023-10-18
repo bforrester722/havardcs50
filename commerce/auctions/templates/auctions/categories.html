@@ -1,20 +1,18 @@
-{% extends "auctions/layout.html" %}
+{% extends 'auctions/layout.html' %}
 
 {% block body %}
+  <h2>Select Category</h2>
 
-    <h2>Create Listing</h2>
-
-    {% if message %}
-        <div>{{ message }}</div>
-    {% endif %}
-
-    <form method="post">
-        {% csrf_token %} {{ form }}
-        <div class="d-flex flex-row-reverse">
-          <input class="btn btn-primary" type="submit" value="Save" />
-        </div>
-      </form>
-
-
-
+  {% for key, value in categories %}
+    <a href="{% url 'categories' key %}">
+      <div>
+        <h5>{{ value }}</h5>
+      </div>
+    </a>
+  {% endfor %}
+  <div class="d-flex justify-content-between">
+    {% for listing in category %}
+      {% include 'auctions/listing_card.html' %}
+    {% endfor %}
+  </div>
 {% endblock %}

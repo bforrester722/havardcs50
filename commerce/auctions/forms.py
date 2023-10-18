@@ -1,6 +1,8 @@
 from django import forms
-from .models import CATEGORY_CHOICES, Listing
+from .models import CATEGORY_CHOICES, Listing, Bid
+from djmoney.forms.fields import MoneyField
 from django.forms import ModelForm
+
 
 #  title = models.CharField(max_length=64)
 #     description = models.CharField(max_length=144)
@@ -12,6 +14,15 @@ class ListingForm(ModelForm):
     class Meta:
         model = Listing
         fields = ["title", "description", "startingBid", "category", "imgUrl"]
+
+
+# class BidForm(forms.Form):
+#     bid = MoneyField(
+#         max_digits=10,  # Maximum total digits (including both integer and decimal parts)
+#         decimal_places=2,  # Number of decimal places
+#         default_currency="USD",  # Default currency
+#     )
+
 
 # class ListingForm(forms.Form):
 #     title = forms.CharField(

@@ -1,31 +1,44 @@
 from datetime import datetime
+from decimal import Decimal
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponseBadRequest, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from .forms import ListingForm
-from .models import Bid, Comment, User, Listing
+from .models import Bid, Comment, User, Listing, CATEGORY_CHOICES
 import logging
 
 logger = logging.getLogger("django")
 
 
-def index(request):
-    listings = Listing.objects.all()
-
+def get_listings_with_highest_bid(listings):
     for listing in listings:
         bids = listing.bids.all().order_by("bid")
-
         if bids:
-            listing.highestBid = bids.last().bid
+            listing.highest_bid = bids.last().bid
         else:
-            listing.highestBid = listing.startingBid
+            listing.highest_bid = listing.startingBid
+    return listings
+
+
+def index(request):
+    listings = Listing.objects.filter(closed=False)
+    listings = get_listings_with_highest_bid(listings)
     return render(request, "auctions/index.html", {"listings": listings})
 
 
-def categories(request):
-    return render(request, "auctions/index.html", {"listings": Listing.objects.all()})
+def categories(request, category=None):
+    listings = Listing.objects.filter(category=category)
+    listings = get_listings_with_highest_bid(listings)
+    return render(
+        request,
+        "auctions/categories.html",
+        {
+            "categories": CATEGORY_CHOICES,
+            "category": listings,
+        },
+    )
 
 
 def listing(request, listing_id):
@@ -33,45 +46,28 @@ def listing(request, listing_id):
         listing = Listing.objects.get(id=listing_id)
         bids = listing.bids.all()
         comments = listing.comments.all()
-
+        highest_bid = bids.last().bid if bids else listing.startingBid
+        minimum_bid = highest_bid + Decimal("0.01")
     except Listing.DoesNotExist:
-        raise Http404("Flight not found.")
+        raise Http404("Listing not found.")
     return render(
         request,
         "auctions/listing.html",
         {
             "listing": listing,
             "bids": bids.count(),
-            "highestBid": bids.last().bid,
+            "highest_bid": highest_bid,
+            "minimum_bid": minimum_bid,
             "comments": comments,
         },
     )
 
 
 def watchlist(request):
-    # Replace 'user_id' with the ID of the user you want to check for
     user = User.objects.get(pk=int(request.user.id))
-
-    # Get all listings
-    listings = Listing.objects.all()
-
-    # Create a dictionary to store whether the user is watching each listing
-    # The keys will be listing IDs, and the values will be True or False
-    listings_user_is_watching = []
-
-    # Iterate through each listing and check if the user is in the watchers
-    for listing in listings:
-        if user in listing.watchers.all():
-            listings_user_is_watching.append((listing))
-    return render(
-        request, "auctions/watchlist.html", {"listings": listings_user_is_watching}
-    )
-
-
-def listings(request):
-    return render(
-        request, "auctions/listings.html", {"listings": Listing.objects.all()}
-    )
+    listings = Listing.objects.filter(watchers=user)
+    listings = get_listings_with_highest_bid(listings)
+    return render(request, "auctions/watchlist.html", {"listings": listings})
 
 
 def login_view(request):
@@ -163,6 +159,7 @@ def close(request, listing_id):
     if request.method == "POST":
         try:
             listing = Listing.objects.get(id=listing_id)
+            bids = listing.bids.all()
         except KeyError:
             return HttpResponseBadRequest("Bad Request: no listing chosen")
         except Listing.DoesNotExist:
@@ -170,7 +167,7 @@ def close(request, listing_id):
         except User.DoesNotExist:
             return HttpResponseBadRequest("Bad Request: User does not exist")
         listing.closed = True
-        listing.watchers.set({})
+        listing.winner = bids.last().user
         listing.save()
 
     return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
@@ -197,7 +194,6 @@ def comment(request, listing_id):
         try:
             listing = Listing.objects.get(id=listing_id)
             comment = request.POST["comment"]
-
         except KeyError:
             return HttpResponseBadRequest("Bad Request: no listing chosen")
         except Listing.DoesNotExist:

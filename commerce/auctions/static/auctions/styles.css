@@ -9,3 +9,29 @@ body {
 a {
     text-decoration: none;
 }
+
+.comment {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .user {
+    font-weight: bold;
+
+  }
+  
+  .date {
+    color: #666;
+  }
+  
+  .comment-text {
+    font-size: 16px;
+    margin: 0;
+  }
