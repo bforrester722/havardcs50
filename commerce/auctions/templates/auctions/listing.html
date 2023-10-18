@@ -1,14 +1,24 @@
 {% extends 'auctions/layout.html' %} {% block body %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const bidInput = document.querySelector("input[name='bid']")
+    
+      bidInput.addEventListener('input', function () {
+        const value = parseFloat(bidInput.value).toFixed(2)
+        bidInput.value = value
+      })
+    })
+  </script>
   {% load my_tags %}
 
   <h2>Listing: {{ listing.title }}</h2>
-  <div class="row">
+  <div class="row" style="margin: auto">
     <div class="col-lg">
       <img src="{{ listing.imgUrl }}" class="w-50 p-3" />
     </div>
     <div class="col-lg">
       <div>{{ listing.description }}</div>
-      <h3>${{ highestBid }}</h3>
+      <h3>${{ highest_bid }}</h3>
 
       {% if user.is_authenticated and listing.closed == False and user.username != listing.owner %}
         <form action="{% url 'change_watchlist' listing.id %}" method="post">
@@ -24,7 +34,7 @@
         <form action="{% url 'bid' listing.id %}" method="post">
           {% csrf_token %}
           <div class="form-group">
-            <input name="bid" type="number" step="0.01" value="{{ highestBid }}" min="{{ highestBid }}" />
+            <input name="bid" type="number" step="0.01" value="{{ minimum_bid }}" min="{{ minimum_bid }}" />
           </div>
           <button class="btn btn-primary" type="submit">Bid</button>
         </form>
@@ -40,6 +50,9 @@
     <li>Watchers:{{ listing.watchers.all.count }}</li>
     <li>Bids:{{ bids }}</li>
   </ul>
+  {% if listing.closed %}
+    {{ listing.winner }}
+  {% endif %}
 
   {% if user.username == listing.owner %}
     <form action="{% url 'close' listing.id %}" method="post">
@@ -47,9 +60,15 @@
       <button class="btn btn-danger">Close Auction</button>
     </form>
   {% endif %}
-
+  <h4>Comments:</h4>
   {% for comment in comments %}
-    <div>{{ comment }}</div>
+    <div class="comment">
+      <div class="comment-header">
+        <span><span class="user">{{ comment.user }}</span> says:</span>
+        <span class="date">{{ comment.formatted_date_time }}</span>
+      </div>
+      <p class="comment-text">{{ comment.comment }}</p>
+    </div>
   {% endfor %}
   <form action="{% url 'comment' listing.id %}" method="post">
     {% csrf_token %}
