@@ -2,7 +2,7 @@
 
 {% block body %}
   <h2>Active Listings</h2>
-  <div class="d-flex justify-content-between">
+  <div class="card-group justify-content-center display-flex">
     {% for listing in listings %}
       {% include 'auctions/listing_card.html' %}
     {% endfor %}

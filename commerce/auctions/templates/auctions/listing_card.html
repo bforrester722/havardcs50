@@ -1,10 +1,14 @@
-<a href="{% url 'listing' listing.id %}">
-  <div class="card">
-    <img class="contain-img" width="320" height="180" src="{{ listing.imgUrl }}" alt="Card image cap" />
-    <div class="card-body">
-      <h5 class="card-title">{{ listing.title }}</h5>
-      <p class="card-text">{{ listing.description }}</p>
-      <p class="fw-bold">${{ listing.highest_bid }}</p>
-    </div>
+<div class="card m-4" style="min-width: 320px; max-width: 320px;">
+  <img class="card-img-top" width="320" height="180" src="{{ listing.imgUrl }}" alt="Card image cap" />
+  <div class="card-body">
+    <h5 class="card-title">{{ listing.title }}</h5>
+    <p class="card-text">{{ listing.description }}</p>
+    <p class="fw-bold">${{ listing.highest_bid }}</p>
+    {% if listing.closed %}
+      <p class="fw-bold text-danger">Closed</p>
+    {% endif %}
   </div>
-</a>
+  <div class="card-footer">
+    <a href="{% url 'listing' listing.id %}"><button class="btn btn-outline-primary float-end">View</button></a>
+  </div>
+</div>

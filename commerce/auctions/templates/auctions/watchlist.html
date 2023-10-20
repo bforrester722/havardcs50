@@ -1,8 +1,8 @@
 {% extends 'auctions/layout.html' %}
 
 {% block body %}
-  <h2>Your Watchlist ({{ user }}):</h2>
-  <div class="d-flex justify-content-between">
+  <h2>{{ user }}'s Watchlist :</h2>
+  <div class="card-group justify-content-center display-flex">
     {% for listing in listings %}
       {% include 'auctions/listing_card.html' %}
     {% endfor %}

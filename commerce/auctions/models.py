@@ -14,24 +14,24 @@ CATEGORY_CHOICES = [
 
 class User(AbstractUser):
     watching = models.ManyToManyField("Listing", related_name="watching", blank=True)
-    pass
 
 
 class Listing(models.Model):
-    category = models.CharField(max_length=32, choices=CATEGORY_CHOICES)
+    category = models.CharField(max_length=32, choices=CATEGORY_CHOICES, blank=True)
     closed = models.BooleanField(default=False)
     description = models.CharField(max_length=144)
     imgUrl = models.CharField(max_length=256, blank=True)
-    owner = models.CharField(max_length=64)
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="listings_owned"
+    )
     startingBid = models.DecimalField(max_digits=6, decimal_places=2)
     title = models.CharField(max_length=64)
-    watchers = models.ManyToManyField(User, blank=True)
     winner = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="won_listings",
+        related_name="listings_won",
     )
 
     def __str__(self):
@@ -39,7 +39,7 @@ class Listing(models.Model):
 
 
 class Bid(models.Model):
-    user = models.CharField(max_length=64)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bids_placed")
     bid = models.DecimalField(max_digits=6, decimal_places=2)
     listing_id = models.ForeignKey(
         Listing, on_delete=models.CASCADE, related_name="bids"
@@ -54,7 +54,9 @@ class Comment(models.Model):
         Listing, on_delete=models.CASCADE, related_name="comments"
     )
     date_time = models.DateTimeField()
-    user = models.CharField(max_length=64)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="comments_made"
+    )
     comment = models.CharField(max_length=144)
 
     def formatted_date_time(self):

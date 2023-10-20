@@ -1,20 +1,18 @@
-{% extends "auctions/layout.html" %}
+{% extends 'auctions/layout.html' %}
 
 {% block body %}
-
+  {% load crispy_forms_tags %}
+  <div class="mx-auto" style="max-width: 800px; padding-bottom: 92px;">
     <h2>Create Listing</h2>
 
     {% if message %}
-        <div>{{ message }}</div>
+      <div>{{ message }}</div>
     {% endif %}
 
     <form method="post">
-        {% csrf_token %} {{ form }}
-        <div class="d-flex flex-row-reverse">
-          <input class="btn btn-primary" type="submit" value="Save" />
-        </div>
-      </form>
-
-
-
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit" class="btn btn-primary float-end">Submit</button>
+    </form>
+  </div>
 {% endblock %}
