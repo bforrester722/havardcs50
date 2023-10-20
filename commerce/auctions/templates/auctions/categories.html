@@ -2,15 +2,15 @@
 
 {% block body %}
   <h2>Select Category</h2>
+  <ul class="nav">
+    {% for key, value in categories %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'categories' key %}">{{ value }}</a>
+      </li>
+    {% endfor %}
+  </ul>
 
-  {% for key, value in categories %}
-    <a href="{% url 'categories' key %}">
-      <div>
-        <h5>{{ value }}</h5>
-      </div>
-    </a>
-  {% endfor %}
-  <div class="d-flex justify-content-between">
+  <div class="card-group justify-content-center display-flex">
     {% for listing in category %}
       {% include 'auctions/listing_card.html' %}
     {% endfor %}

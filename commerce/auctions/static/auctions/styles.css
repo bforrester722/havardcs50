@@ -2,6 +2,7 @@ body {
     padding: 10px;
 }
 
+
 .contain-img {
     object-fit: contain;
 }
@@ -34,4 +35,15 @@ a {
   .comment-text {
     font-size: 16px;
     margin: 0;
+  }
+
+  .listing-grid {
+    display: grid;
+    grid-template-columns:  repeat(auto-fit, minmax(320px, 350px));
+    grid-gap: 24px;
+    justify-content: space-around ;
+  }
+
+  .listing-img {
+    max-height: 400px;
   }
