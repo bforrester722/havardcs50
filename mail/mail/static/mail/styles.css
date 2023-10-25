@@ -1,0 +1,20 @@
+.container {
+  min-height: 100vh;
+  position: relative;
+}
+
+textarea {
+  min-height: 400px;
+}
+
+#email {
+  display: flex;
+  justify-content: space-around;
+}
+
+#alertWrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
