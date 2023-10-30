@@ -1,0 +1,26 @@
+.fa {
+  cursor: pointer;
+  color: red;
+}
+
+.card-title a{
+  color: black;
+}
+
+.card-title a:hover{
+  color: #007bff;
+}
+
+.edit-button {
+  color: #007bff;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  text-decoration: underline;
+}
+
+.disabled {
+  cursor: default;
+  pointer-events: none;
+}

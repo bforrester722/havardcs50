@@ -1,0 +1,35 @@
+{% load static %}
+{% load like_tags %}
+
+<div class="card m-4">
+  <div class="card-body">
+   <h5 class="card-title"> <a href="{% url 'profile' post.user %}">{{ post.user }}</a></h5>
+    <div id="post-{{ post.id }}">
+      <p id="post-text-{{ post.id }}" class="card-text">{{ post.text }}</p>
+      <div class="edit-form" style="display: none;">
+        <textarea class="form-control" name="edited_content">{{ post.text }}</textarea>
+      </div>
+      <p class="card-text">{{ post.date_time }}</p>
+      {% if user.is_authenticated and user == post.user %}
+        <span id="edit-btn-{{ post.id }}" class="edit-button" data-post-id="{{ post.id }}" onclick="editBtnClicked({{ post.id }})">Edit</span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="card-footer" style="user-select: none;">
+    {% if user.is_authenticated %}
+    <i class="fa {% if user|has_liked:post %}fa-heart{% else %}fa-heart-o{% endif %}" 
+       data-post-id="{{ post.id }}" 
+       aria-hidden="true">
+    </i>
+    {% else %}
+      <i class="fa fa-heart-o disabled"></i>
+    {% endif %}
+
+    <span id="like-count-{{ post.id }}">{{ post.like_set.count }}</span>
+  </div>
+</div>
+
+{% block script %}
+  <script src="{% static 'network/like.js' %}"></script>
+{% endblock %}

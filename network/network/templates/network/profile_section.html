@@ -1,0 +1,23 @@
+<div class="justify-content-between d-flex align-items-center pt-4">
+  <h1>{{ current_user.username }}'s Profile</h1>
+
+  <!-- Check if the current user is not the user being viewed -->
+  {% if not current_user == user and user.is_authenticated %}
+    <form method="POST" action="{% url 'toggle_follow' current_user.username %}">
+      {% csrf_token %}
+
+      <button type="submit" class="btn btn-primary">
+        {% if following %}
+          Unfollow
+        {% else %}
+          Follow
+        {% endif %}
+      </button>
+    </form>
+  {% endif %}
+</div>Joined {{ current_user.date_joined }}
+<div class="pb-4">
+  <span>{{ num_followers }} Followers</span>
+  <span>{{ num_following }} Following</span>
+</div>
+<hr />

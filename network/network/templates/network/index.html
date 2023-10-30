@@ -1,0 +1,27 @@
+{% extends 'network/layout.html' %}
+
+{% block body %}
+  {% if form and user.is_authenticated %}
+    <form class="m-4" method="post">
+      {% csrf_token %}
+
+      <h4>New Post</h4>
+      {{ form }}
+      <div class="d-flex flex-row-reverse">
+        <input class="btn btn-primary mt-4" type="submit" value="Post" />
+      </div>
+    </form>
+  {% endif %}
+
+  {% if is_profile_page %}
+    {% include 'network/profile_section.html' %}
+  {% endif %}
+
+  {% for post in posts %}
+    {% include 'network/post_card.html' %}
+    {% empty %}
+    <h2 class="pt-4">Sorry, No Posts.</h2>
+  {% endfor %}
+
+  {% include 'network/pagination.html' %}
+{% endblock %}

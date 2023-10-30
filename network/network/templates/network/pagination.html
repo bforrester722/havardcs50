@@ -1,0 +1,22 @@
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    {% if posts.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ posts.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">Previous</span></a>
+      </li>
+    {% endif %}
+    {% if posts.paginator.page_range|length > 1 %}
+      {% for num in posts.paginator.page_range %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+        </li>
+      {% endfor %}
+    {% endif %}
+
+    {% if posts.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="Next"><span aria-hidden="true">Next</span></a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
